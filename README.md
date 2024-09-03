@@ -1,27 +1,82 @@
-# TaskManager
+# PROJET ANGULAR HERNANDEZ MATHIS B3
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.9.
+## Introduction
 
-## Development server
+version de NodeJS: v20.17.0
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+version de NPM: 10.8.2
 
-## Code scaffolding
+version de Angular: 17.3.12
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+version de Angular CLI: 17.3.9
 
-## Build
+commande de lancement: ng serve
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Compodoc
 
-## Running unit tests
+compodoc version: 1.1.25
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+lancer compodoc : npm run compodoc
 
-## Running end-to-end tests
+### Component 
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+ng generate component Task
 
-## Further help
+On créé un composant task pour pour afficher les infos d'un objet Task.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Smart Dumb Patern
+
+On créé composant main-task afin de déplacer la création de la tache dans le Smart component et donner les données au Dumb component qui les affiche correctement.
+
+### Directives
+
+ng generate directive task-list
+
+On créé le composant task-list ainsi que la classe TaskList dans laquelle on met une liste de task
+
+On créé ensuite la directive status-color ainsi que le *ngFor afin d'afficher chaque tache avec le nom correspondant a la couleur de son status.
+
+### Pipes
+
+ng generate pipe dateformat
+
+On créé le pipe dateformat afin de modifier le format de la date.
+
+On utilise ensuide la balise suivante pour appliquer notre pipe:
+
+```angular
+<p>{{curentTask.dateCreation | dateformat:'medium'}}</p>
+```
+
+### Router
+
+On ajoute une route dans le app.routes.ts afin de rediriger vers [localhost:4200/display](http://localhost:4200/display) si on se connecte sur [localhost:4200](http://localhost:4200).
+
+```angular
+    {path: '', redirectTo: 'display', pathMatch: 'full'},
+```
+
+On utilise ensuite cette seconde route pour charger TaskModule lorsque l'on arrive sur [display](http://localhost:4200/display) (lazy loading):
+
+```angular
+{path: 'display', loadChildren:() => import('./tasks/tasks.module').then(m=> m.TasksModule)}
+```
+
+
+### Modules
+
+ng generate module task
+
+On créé le module tasks dans lequel on centralise tous les component, directives et pipe que l'on veut utiliser pour les tasks en enlevant les import et le standalone de ces fichiers.
+
+On rajoute également les routes des composants que l'on utilise dans le fichier tasks-routing.module.
+
+### Services
+
+ng generate service crudtask-list-service
+
+ng generate service ByStatutTaskListService
+
+On créé un service crudtask-list-service dans lequel on déplace la créations de task-list en les récupérant via getTaskList.
+
+On créé ensuite un service by-statut-task-list-service qui permet de récupérer la liste des staks qui on pour ETAT terminé afin de créer une archive des taches terminées.
